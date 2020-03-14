@@ -4,6 +4,36 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+import base64
+import email
+import pandas as pd
+import sqlite3
+import re
+from datetime import datetime
+import pytz
+class database:
+    def __init__(self,name):
+        if not isinstance(name,str):
+            raise TypeError("name of database not string.Stopping program.")
+        self.conn = sqlite3.connect(name+'.db')
+        self.c = self.conn.cursor()
+        print(name+" database created")
+    
+    def create_table_from_df(self,name,df):
+        try:
+            if not isinstance(name,str):
+                raise TypeError("name of database is not string.Stopping program.")
+            if not isinstance(df,pd.DataFrame):
+                raise TypeError("Not a dataframe.Stopping program.")
+
+            df.to_sql(name,self.conn, if_exists='replace', index = False)
+            # self.c.execute('CREATE TABLE '+name+' (Brand text, Price number)')
+            # # self.c.execute('CREATE TABLE '+ name +' '+ '(ID, To, From, Subject, Message, CC, Date, Has_Image, Has_PDF)')
+            # self.conn.commit()
+            print(name+" table creation completed")
+        except Exception as e:
+            print ('An error occurred: '+str(e))
+
 
 class GMAIL_auth:
     SCOPES = ['https://www.googleapis.com/auth/gmail.modify']   # scope of the api (read,write,etc)                                         # location of the credentials.json file
@@ -59,29 +89,126 @@ class GMAIL_endpoint:
     '''
     Fetch latest num_of_messages messages from the users inbox
     '''
-    def fetch_messages(self,num_of_messages):     
+    def fetch_messages(self,num_of_messages):   
         try:
-            response = self.gmail_service.users().messages().list(userId='me',maxResults=num_of_messages,label_ids=['INBOX']).execute()
-            messages = []
-            if 'messages' in response:
-                messages.extend(response['messages'])
             
-            while 'nextPageToken' in response and (len(messages)<num_of_messages):
+            response = self.gmail_service.users().messages().list(userId='me',maxResults=num_of_messages,labelIds=['INBOX']).execute()
+            messages_id = []
+            messages=[]
+            
+            if 'messages' in response:
+                messages_id.extend(response['messages'])
+            
+            while 'nextPageToken' in response and (len(messages_id)<num_of_messages):
                 page_token = response['nextPageToken']
-                response = self.gmail_service.users().messages().list(userId='me',pageToken=page_token,maxResults=num_of_messages-len(messages),label_ids=['INBOX']).execute()
-                messages.extend(response['messages'])
+                response = self.gmail_service.users().messages().list(userId='me',pageToken=page_token,maxResults=num_of_messages-len(messages),labelIds=['INBOX']).execute()
+                messages_id.extend(response['messages'])
+
+            for i in messages_id:
+                messages.append(email.message_from_bytes(base64.urlsafe_b64decode(self.gmail_service.users().messages().get(userId='me', id=i['id'],format='raw').execute()['raw'])))
 
             print("Message fetch complete")
-            return messages
+            return messages,messages_id
 
         except Exception as e:
             print ('An error occurred: '+str(e))
 
+def get_message(email_message):    # reference https://gist.github.com/miohtama/5389146
+    message=''
+    text = ""
+    try:
+        if email_message.is_multipart():
+            html = None
+            for part in email_message.get_payload():
+                if part.get_content_charset() is None:
+                    text = part.get_payload(decode=True)
+                    continue
+
+                charset = part.get_content_charset()
+
+                if part.get_content_type() == 'text/plain':
+                    text = str(part.get_payload(decode=True), str(charset), "ignore")
+
+                if part.get_content_type() == 'text/html':
+                    html = str(part.get_payload(decode=True), str(charset), "ignore")
+
+            if text is not None:
+                return text.strip()
+            elif html is not None:
+                return html.strip()
+
+            return "default error string"
+        else:
+            text = str(email_message.get_payload(decode=True), email_message.get_content_charset(), 'ignore')
+            return text.strip()
+
+    except Exception as e:
+        print('An error occurred: '+str(e))
+    
+
+
+def get_attachment(email_message):
+    image=0
+    pdf=0
+    if email_message.is_multipart():
+        for i in email_message.walk():
+            ctype = i.get_content_type()
+            if 'image' in ctype:
+                image=1
+            if 'pdf' in ctype:
+                pdf=1
+
+    return (image,pdf)
+
+def get_cc(email_message):
+    if 'Cc' in email_message.keys():
+        return email_message['Cc']
+    return None
+
+def get_email(email_address):
+    temp = re.findall('[^<]+@[^>]+', email_address) 
+    return ','.join(temp)
+
+
+def convert_to_data(messages,message_ids,mail_base):
+    col_names =  ['ID','To', 'From', 'Subject','Message','CC','Date','Time_Zone','UTC_time','Has_Image','Has_PDF']
+    df  = pd.DataFrame(columns = col_names)
+    for i,j in zip(messages,message_ids):
+        To=get_email(i['To'])
+        From=get_email(i['From'])
+        Subject=i['Subject']
+        date=datetime.strptime((i['Date'][0:(len(i['Date'])-6)]), "%a, %d %b %Y %H:%M:%S")
+        timezone=i['Date'][(len(i['Date'])-6):]
+        utc_time=datetime.strptime((i['Date']), "%a, %d %b %Y %H:%M:%S %z").astimezone(pytz.utc)
+        utc_time=str(utc_time)[0:(len(str(utc_time))-6)]
+        utc_time=datetime.strptime(utc_time, "%Y-%m-%d %H:%M:%S")
+        message=get_message(i)
+        cc=get_cc(i)
+        attachment=get_attachment(i)
+        df.loc[len(df)] = [j['id'],To,From,Subject,message,cc,date,timezone,utc_time,attachment[0],attachment[1]]
+    
+    mail_base.create_table_from_df('gmail',df)
+
+
+    
+    
+
+
 if __name__ == '__main__':
     auth=GMAIL_auth('credentials.json')
+    db=database('Mail_base')
     auth.gmail_auth_template()
     gmail_api=GMAIL_endpoint(auth)
-    # messages=gmail_api.fetch_messages(10)
-    print(gmail_api.gmail_service.users().messages().get(userId='me', id='170b26baf3561ea6').execute()['payload']['headers'])
-
-
+    messages,message_ids=gmail_api.fetch_messages(5)
+    convert_to_data(messages,message_ids,db)
+    # print(get_email('Aarush Talwar <aarush17213@iiitd.ac.in>, Ashwin Singh <ashwin17222@iiitd.ac.in>, Ashima Garg <ashimag@iiitd.ac.in>, Bharath Kumar Thulasidoss <bharath17035@iiitd.ac.in>, Mayank Chauhan <mayank18008@iiitd.ac.in>, Vikram Kumar <vikram18250@iiitd.ac.in>, Priyanka Singh <priyankas@iiitd.ac.in>, Shahid Nawaz Khan <shahid17102@iiitd.ac.in>, Roshan Mishra <roshan19193@iiitd.ac.in>, Sushank Jha <sushank19162@iiitd.ac.in>, Akshita Gupta <akshitag@iiitd.ac.in>'))
+    # data = dict()
+    # data['to'] = mime_email_message['To']
+    # data['from'] = mime_email_message['From']
+    # data['date'] = mime_email_message['Date']
+    # data['subject'] = mime_email_message['Subject']
+    # print(messages[0]['payload']['headers'][22]['name'])
+    # print(messages[0]['payload']['headers'][22]['value'])
+    # # print(base64.urlsafe_b64decode(messages[0]['payload']['parts'][0]['body']['data']))  
+    # for i in messages[0]['payload']['parts']:
+    # print((messages[2]['Cc']))
