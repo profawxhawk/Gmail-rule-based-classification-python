@@ -201,14 +201,3 @@ if __name__ == '__main__':
     gmail_api=GMAIL_endpoint(auth)
     messages,message_ids=gmail_api.fetch_messages(5)
     convert_to_data(messages,message_ids,db)
-    # print(get_email('Aarush Talwar <aarush17213@iiitd.ac.in>, Ashwin Singh <ashwin17222@iiitd.ac.in>, Ashima Garg <ashimag@iiitd.ac.in>, Bharath Kumar Thulasidoss <bharath17035@iiitd.ac.in>, Mayank Chauhan <mayank18008@iiitd.ac.in>, Vikram Kumar <vikram18250@iiitd.ac.in>, Priyanka Singh <priyankas@iiitd.ac.in>, Shahid Nawaz Khan <shahid17102@iiitd.ac.in>, Roshan Mishra <roshan19193@iiitd.ac.in>, Sushank Jha <sushank19162@iiitd.ac.in>, Akshita Gupta <akshitag@iiitd.ac.in>'))
-    # data = dict()
-    # data['to'] = mime_email_message['To']
-    # data['from'] = mime_email_message['From']
-    # data['date'] = mime_email_message['Date']
-    # data['subject'] = mime_email_message['Subject']
-    # print(messages[0]['payload']['headers'][22]['name'])
-    # print(messages[0]['payload']['headers'][22]['value'])
-    # # print(base64.urlsafe_b64decode(messages[0]['payload']['parts'][0]['body']['data']))  
-    # for i in messages[0]['payload']['parts']:
-    # print((messages[2]['Cc']))
