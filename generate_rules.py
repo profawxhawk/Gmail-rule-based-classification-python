@@ -58,10 +58,10 @@ def get_rule():
 
 
 def get_action():
-    action=get_input("choose action as move,read or unread",["move","read","unread"])
+    action=get_input("choose action as move,read,delete,starred,important or unread",["move","read","unread","delete","starred","important"])
     mailbox=None
     if action=="move":
-        mailbox=get_input("choose place to move as inbox or spam",["inbox","spam"])
+        mailbox=get_input("choose place to move as inbox,trash or spam",["inbox","spam","trash"])
     return {'action':action,'mailbox':mailbox}
 
 

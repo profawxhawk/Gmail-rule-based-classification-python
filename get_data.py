@@ -93,7 +93,7 @@ class GMAIL_endpoint:
     def fetch_messages(self,num_of_messages):   
         try:
             
-            response = self.gmail_service.users().messages().list(userId='me',maxResults=num_of_messages,labelIds=['INBOX']).execute()
+            response = self.gmail_service.users().messages().list(userId='me',maxResults=num_of_messages).execute()
             messages_id = []
             messages=[]
             
@@ -102,7 +102,7 @@ class GMAIL_endpoint:
             
             while 'nextPageToken' in response and (len(messages_id)<num_of_messages):
                 page_token = response['nextPageToken']
-                response = self.gmail_service.users().messages().list(userId='me',pageToken=page_token,maxResults=num_of_messages-len(messages),labelIds=['INBOX']).execute()
+                response = self.gmail_service.users().messages().list(userId='me',pageToken=page_token,maxResults=num_of_messages-len(messages)).execute()
                 messages_id.extend(response['messages'])
 
             for i in messages_id:
@@ -182,24 +182,29 @@ def convert_to_data(messages,message_ids,mail_base):
         To=get_email(i['To'])
         From=get_email(i['From'])
         Subject=i['Subject']
-        print(i['Date'])
+        # print(i['Date'])
 
         if i['Date'].find('+')!=-1:
             index=i['Date'].find('+')
         else:
             index=i['Date'].find('-')
+        
+        date=None
+        timezone=None
+        utc_time=None
+        if index>-1:
+            date=datetime.strptime((i['Date'][0:index-1]), "%a, %d %b %Y %H:%M:%S")
+            timezone=i['Date'][index:index+5]
+            utc_time=datetime.strptime((i['Date'][0:index+5]), "%a, %d %b %Y %H:%M:%S %z").astimezone(pytz.utc)
 
-        date=datetime.strptime((i['Date'][0:index-1]), "%a, %d %b %Y %H:%M:%S")
-        timezone=i['Date'][index:]
-        utc_time=datetime.strptime((i['Date']), "%a, %d %b %Y %H:%M:%S %z").astimezone(pytz.utc)
+            if str(utc_time).find('+')!=-1:
+                index_utc=str(utc_time).find('+')
+            else:
+                index_utc=str(utc_time).find('-')
+                
+            utc_time=str(utc_time)[0:index_utc-1]
+            utc_time=datetime.strptime(utc_time, "%Y-%m-%d %H:%M:%S")
 
-        if str(utc_time).find('+')!=-1:
-            index_utc=str(utc_time).find('+')
-        else:
-            index_utc=str(utc_time).find('-')
-            
-        utc_time=str(utc_time)[0:index_utc-1]
-        utc_time=datetime.strptime(utc_time, "%Y-%m-%d %H:%M:%S")
         message=get_message(i)
         message = re.sub(r'https?://\S+', '', message, flags=re.MULTILINE)
         message=''.join(e for e in message if e.isalnum() or e==' ')
@@ -208,11 +213,6 @@ def convert_to_data(messages,message_ids,mail_base):
         df.loc[len(df)] = [j['id'],To,From,Subject,message,cc,date,timezone,utc_time,attachment[0],attachment[1]]
     
     mail_base.create_table_from_df('gmail',df)
-
-
-    
-    
-
 
 if __name__ == '__main__':
     auth=GMAIL_auth('credentials.json')
