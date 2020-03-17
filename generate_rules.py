@@ -22,7 +22,7 @@ def get_rule():
     value=None
     rule_type=get_input("choose rule type as string,date or numeric",["string","date","numeric"])
     if rule_type=='string':
-        field_name=get_input("choose field name as To,From,Subject,Message,CC or Time_Zone",["To","From","Subject","Message","CC","Time_Zone"])
+        field_name=get_input("choose field name as To_mail,From_mail,Subject,Message,CC or Time_Zone",["To_mail","From_mail","Subject","Message","CC","Time_Zone"])
         rule_predicate=get_input("choose predicate as contains,does_not_contain,equals or does_not_equal",["contains","does_not_contain","equals","does_not_equal"])
         print("Input a string value")
         value=input()

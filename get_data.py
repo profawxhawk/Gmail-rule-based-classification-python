@@ -9,6 +9,7 @@ import email
 import pandas as pd
 import sqlite3
 import re
+import html2text
 from datetime import datetime
 import pytz
 class database:
@@ -17,7 +18,7 @@ class database:
             raise TypeError("name of database not string.Stopping program.")
         self.conn = sqlite3.connect(name+'.db')
         self.c = self.conn.cursor()
-        print(name+" database created")
+        print(name+" database connected")
     
     def create_table_from_df(self,name,df):
         try:
@@ -121,7 +122,7 @@ def get_message(email_message):    # reference https://gist.github.com/miohtama/
             html = None
             for part in email_message.get_payload():
                 if part.get_content_charset() is None:
-                    text = part.get_payload(decode=True)
+                    text = str(part.get_payload(decode=True))
                     continue
 
                 charset = part.get_content_charset()
@@ -130,7 +131,7 @@ def get_message(email_message):    # reference https://gist.github.com/miohtama/
                     text = str(part.get_payload(decode=True), str(charset), "ignore")
 
                 if part.get_content_type() == 'text/html':
-                    html = str(part.get_payload(decode=True), str(charset), "ignore")
+                    html = str(html2text.html2text(part.get_payload(decode=True).decode('utf8')))
 
             if text is not None:
                 return text.strip()
@@ -139,8 +140,9 @@ def get_message(email_message):    # reference https://gist.github.com/miohtama/
 
             return "default error string"
         else:
-            text = str(email_message.get_payload(decode=True), email_message.get_content_charset(), 'ignore')
-            return text.strip()
+            return str(html2text.html2text(email_message.get_payload(decode=True).decode('utf8'))).strip()
+            # text = str(email_message.get_payload(decode=True), str(email_message.get_content_charset()), 'ignore')
+            # return text.strip()
 
     except Exception as e:
         print('An error occurred: '+str(e))
@@ -162,27 +164,45 @@ def get_attachment(email_message):
 
 def get_cc(email_message):
     if 'Cc' in email_message.keys():
-        return email_message['Cc']
+        temp = re.findall('\<(.*?)\>', email_message['Cc']) 
+        return ','.join(temp)
     return None
 
 def get_email(email_address):
-    temp = re.findall('[^<]+@[^>]+', email_address) 
+    temp = re.findall('\<(.*?)\>', email_address) 
+    if temp==[]:
+        return str(email_address)
     return ','.join(temp)
 
 
 def convert_to_data(messages,message_ids,mail_base):
-    col_names =  ['ID','To', 'From', 'Subject','Message','CC','Date','Time_Zone','UTC_time','Has_Image','Has_PDF']
+    col_names =  ['ID','To_mail', 'From_mail', 'Subject','Message','CC','local_time','Time_Zone','utc_time','image','pdf']
     df  = pd.DataFrame(columns = col_names)
     for i,j in zip(messages,message_ids):
         To=get_email(i['To'])
         From=get_email(i['From'])
         Subject=i['Subject']
-        date=datetime.strptime((i['Date'][0:(len(i['Date'])-6)]), "%a, %d %b %Y %H:%M:%S")
-        timezone=i['Date'][(len(i['Date'])-6):]
+        print(i['Date'])
+
+        if i['Date'].find('+')!=-1:
+            index=i['Date'].find('+')
+        else:
+            index=i['Date'].find('-')
+
+        date=datetime.strptime((i['Date'][0:index-1]), "%a, %d %b %Y %H:%M:%S")
+        timezone=i['Date'][index:]
         utc_time=datetime.strptime((i['Date']), "%a, %d %b %Y %H:%M:%S %z").astimezone(pytz.utc)
-        utc_time=str(utc_time)[0:(len(str(utc_time))-6)]
+
+        if str(utc_time).find('+')!=-1:
+            index_utc=str(utc_time).find('+')
+        else:
+            index_utc=str(utc_time).find('-')
+            
+        utc_time=str(utc_time)[0:index_utc-1]
         utc_time=datetime.strptime(utc_time, "%Y-%m-%d %H:%M:%S")
         message=get_message(i)
+        message = re.sub(r'https?://\S+', '', message, flags=re.MULTILINE)
+        message=''.join(e for e in message if e.isalnum() or e==' ')
         cc=get_cc(i)
         attachment=get_attachment(i)
         df.loc[len(df)] = [j['id'],To,From,Subject,message,cc,date,timezone,utc_time,attachment[0],attachment[1]]
@@ -199,5 +219,5 @@ if __name__ == '__main__':
     db=database('Mail_base')
     auth.gmail_auth_template()
     gmail_api=GMAIL_endpoint(auth)
-    messages,message_ids=gmail_api.fetch_messages(5)
+    messages,message_ids=gmail_api.fetch_messages(10)
     convert_to_data(messages,message_ids,db)
