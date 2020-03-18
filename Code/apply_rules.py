@@ -1,17 +1,28 @@
 import json
 import os
 import datetime
-from get_data import database,GMAIL_auth,GMAIL_endpoint
+from Code.get_data import database,GMAIL_auth,GMAIL_endpoint
 
 string_type=["To_mail","From_mail","Subject","Message","CC","Time_Zone"]
 date_type=["local_time","utc_time"]
 numeric_type=["image","pdf"]
 class email_rule_check:
+    """A class which connects with the database to extract stored mail data and also maintains a rule hashmap for optimization purposes when checking wether a email satisfies a rule or not"""
     def __init__(self):
-        self.db=database('Mail_base')
+        """
+        
+        Constructor for email_rule_check class
+
+        """
+        self.db=database('../Storage/Mail_base')
         self.rule_cache={}
     
     def generate_cache(self):
+        """
+        
+        Function to initialise the hashmap cache
+
+        """
         self.db.c.execute("SELECT ID FROM gmail;")
         data = self.db.c.fetchall()
         for row in data:
@@ -19,15 +30,81 @@ class email_rule_check:
 
 
 def hash_dict(val):
+    """
+    
+    Function to hash a given dictionary
+    
+    Parameters
+    ----------
+        val
+            The dictionary to hash
+
+    Returns
+        -------
+        result:json
+            The hashed json string
+    
+    """
     return json.dumps(val, sort_keys=True)
 
 def days(date1, date2): 
+    """
+    
+    Function to find the difference between 2 dates in days
+    
+    Parameters
+    ----------
+        date1
+            The first date
+        date2
+            The second date
+
+    Returns
+        -------
+        result:int
+            The number of days between the 2 dates
+    
+    """
     return (date2-date1).days 
 
 def days_to_months(days):
+    """
+    
+    Function to convert given number of days to months
+    
+    Parameters
+    ----------
+        days
+            The number of days which has to be converted to months
+
+    Returns
+        -------
+        result:int
+            The converted number of months
+    
+    """
     return days/30
 
 def check_single_rule(single_rule,rule_checker,email_id):
+    """
+    
+    Function to check wether a single rule is satisfied by the email or not
+    
+    Parameters
+    ----------
+        single_rule
+            The rule to be checked
+        rule_checker
+            The email_rule_check object which maintains a hashmap of single rules for each email
+        email_id
+            The mail ID of a particular mail as stored in the database
+
+    Returns
+        -------
+        result:boolean
+            The truth value of wether the email passed the rule or not ( True for passed and False for fail)
+    
+    """
     if hash_dict(single_rule) not in rule_checker.rule_cache[email_id]:
         result=0
         field_name=single_rule['Field Name']
@@ -88,6 +165,20 @@ def check_single_rule(single_rule,rule_checker,email_id):
         
 
 def perform_action(email_id,action_list,gmail_api):
+    """
+    
+    Function to check a rule_set for a given email
+    
+    Parameters
+    ----------
+        email_id
+            The mail ID of a particular mail as stored in the database
+        action_list
+            The list of actions which has to be performed on the email
+        gmail_api
+            The gmail_endpoint object to get a particular message from its ID
+    
+    """
     message = gmail_api.gmail_service.users().messages().get(userId='me', id=email_id).execute()
     for i in action_list:
         if i['action']=="delete":
@@ -118,6 +209,22 @@ def perform_action(email_id,action_list,gmail_api):
 
 
 def check_rule(rule,rule_checker,email_id,gmail_api):
+    """
+    
+    Function to check a rule_set for a given email
+    
+    Parameters
+    ----------
+        rule
+            The rule_set to be checked
+        rule_checker
+            The email_rule_check object which maintains a hashmap of single rules for each email
+        email_id
+            The mail ID of a particular mail as stored in the database
+        gmail_api
+            The gmail_endpoint object to get a particular message from its ID
+    
+    """
     if 'rule_list' not in rule:
             print("No rules available in this rule set")
             return
@@ -149,8 +256,8 @@ if __name__ == '__main__':
     gmail_api=GMAIL_endpoint(auth)
     rule_checker=email_rule_check()
     rule_checker.generate_cache()
-    with open("rules.json", "r") as file:
-        if os.stat("rules.json").st_size > 0:
+    with open("../Storage/rules.json", "r") as file:
+        if os.stat("../Storage/rules.json").st_size > 0:
                 rules = json.load(file) 
                 if 'rule_set_arr' not in rules:
                     print("No rules available")

@@ -1,0 +1,550 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to Gmail Rule classification’s documentation! &mdash; Gmail Rule classification 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Gmail Rule classification
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to Gmail Rule classification’s documentation!</a></li>
+<li><a class="reference internal" href="#module-Code.get_data">Get Data module</a><ul>
+<li><a class="reference internal" href="#get-data-py">get_data.py</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Code.generate_rules">Generate Rules module</a></li>
+<li><a class="reference internal" href="#module-Code.apply_rules">Apply Rules module</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Gmail Rule classification</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to Gmail Rule classification’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-gmail-rule-classification-s-documentation">
+<h1>Welcome to Gmail Rule classification’s documentation!<a class="headerlink" href="#welcome-to-gmail-rule-classification-s-documentation" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="module-Code.get_data">
+<span id="get-data-module"></span><h1>Get Data module<a class="headerlink" href="#module-Code.get_data" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="get-data-py">
+<h2>get_data.py<a class="headerlink" href="#get-data-py" title="Permalink to this headline">¶</a></h2>
+<p>The module which extracts the data from gmail and stores it in a database</p>
+<dl class="class">
+<dt id="Code.get_data.GMAIL_auth">
+<em class="property">class </em><code class="sig-prename descclassname">Code.get_data.</code><code class="sig-name descname">GMAIL_auth</code><span class="sig-paren">(</span><em class="sig-param">location</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.GMAIL_auth" title="Permalink to this definition">¶</a></dt>
+<dd><p>A gmail authenticator class to establish credentials and get access to gmail service for a given authenticated account</p>
+<dl class="method">
+<dt id="Code.get_data.GMAIL_auth.gmail_auth_template">
+<code class="sig-name descname">gmail_auth_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.GMAIL_auth.gmail_auth_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Template function to establish authorisation to google api and return a gmail service after building it</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Code.get_data.GMAIL_endpoint">
+<em class="property">class </em><code class="sig-prename descclassname">Code.get_data.</code><code class="sig-name descname">GMAIL_endpoint</code><span class="sig-paren">(</span><em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.GMAIL_endpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>A gmail endpoint class which uses a GMAIL_auth object to define APIs to interact with the authenticated users gmail messages</p>
+<dl class="method">
+<dt id="Code.get_data.GMAIL_endpoint.fetch_messages">
+<code class="sig-name descname">fetch_messages</code><span class="sig-paren">(</span><em class="sig-param">num_of_messages</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.GMAIL_endpoint.fetch_messages" title="Permalink to this definition">¶</a></dt>
+<dd><p>API to fetch the latest given number of messages</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_of_messages</strong> – The number of mails to fetch from the users list of mails</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>messages,messages_id</strong> – messages is the list of messages ( in the format defined in <a class="reference external" href="https://developers.google.com/gmail/api/v1/reference/users/messages">https://developers.google.com/gmail/api/v1/reference/users/messages</a> ) and messages_id is the list of corresponding message IDs</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple(list,list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.get_data.convert_to_data">
+<code class="sig-prename descclassname">Code.get_data.</code><code class="sig-name descname">convert_to_data</code><span class="sig-paren">(</span><em class="sig-param">messages</em>, <em class="sig-param">message_ids</em>, <em class="sig-param">mail_base</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.convert_to_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to convert a list of messages to a sql table</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>messages</strong> – The list of all messages which need to be converted to a table</p></li>
+<li><p><strong>messages_ids</strong> – The list of all corresponding message ids of the messages in messages list</p></li>
+<li><p><strong>mail_base</strong> – The database object which contains the database connection to the database where the table has to be created</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="Code.get_data.database">
+<em class="property">class </em><code class="sig-prename descclassname">Code.get_data.</code><code class="sig-name descname">database</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.database" title="Permalink to this definition">¶</a></dt>
+<dd><p>A database class to generate a sql .db file and to do CRUD operations on tables in the database</p>
+<dl class="method">
+<dt id="Code.get_data.database.create_table_from_df">
+<code class="sig-name descname">create_table_from_df</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.database.create_table_from_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to create a sql table in the database from a given pandas dataframe</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – A string indicating the name of the table.</p></li>
+<li><p><strong>df</strong> – The dataframe which needs to be converted.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.get_data.get_attachment">
+<code class="sig-prename descclassname">Code.get_data.</code><code class="sig-name descname">get_attachment</code><span class="sig-paren">(</span><em class="sig-param">email_message</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.get_attachment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to get attachment details in a email</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>email_message</strong> – The email whose atachments needs to be extracted</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>image,pdf</strong> – returns a tuple (image,pdf) which returns the truth value ( 1 if present and 0 if absent) of image and pdf attachments</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple(boolean,boolean)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.get_data.get_cc">
+<code class="sig-prename descclassname">Code.get_data.</code><code class="sig-name descname">get_cc</code><span class="sig-paren">(</span><em class="sig-param">email_message</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.get_cc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to get CCed details in a email</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>email_message</strong> – The email whose CCed email_ids needs to be extracted</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>CC_string</strong> – returns a comma seperated string of all the CCed email_ids</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.get_data.get_email">
+<code class="sig-prename descclassname">Code.get_data.</code><code class="sig-name descname">get_email</code><span class="sig-paren">(</span><em class="sig-param">email_address</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.get_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to get email_ids from a string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>email_message</strong> – The string from which all email_ids need to be extracted</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>email_id</strong> – returns a string containing all the email_ids found in the string</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.get_data.get_message">
+<code class="sig-prename descclassname">Code.get_data.</code><code class="sig-name descname">get_message</code><span class="sig-paren">(</span><em class="sig-param">email_message</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.get_data.get_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to get body of the email given a email in the Users.messages format. In case of multi parts the latest message is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>email_message</strong> – The email whose body needs to be extracted</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>message</strong> – message is the parsed body of the email ( can be parsed from normal email text body or from a HTML page body)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-Code.generate_rules">
+<span id="generate-rules-module"></span><h1>Generate Rules module<a class="headerlink" href="#module-Code.generate_rules" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="Code.generate_rules.get_action">
+<code class="sig-prename descclassname">Code.generate_rules.</code><code class="sig-name descname">get_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Code.generate_rules.get_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to get a single action dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>Action</strong> – Action contains action and mailbox as keys</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.generate_rules.get_input">
+<code class="sig-prename descclassname">Code.generate_rules.</code><code class="sig-name descname">get_input</code><span class="sig-paren">(</span><em class="sig-param">cond_string</em>, <em class="sig-param">cond_arr</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.generate_rules.get_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to get input till some conditions match</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cond_string</strong> – The display message to be printed while taking input</p></li>
+<li><p><strong>cond_arr</strong> – The array of allowed values for the input</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ans</strong> – The input value in accordance with the given conditions</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.generate_rules.get_rule">
+<code class="sig-prename descclassname">Code.generate_rules.</code><code class="sig-name descname">get_rule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Code.generate_rules.get_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to get a single rule dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>Action</strong> – Rule contains field name, predicate and value as keys.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="Code.generate_rules.my_dictionary">
+<em class="property">class </em><code class="sig-prename descclassname">Code.generate_rules.</code><code class="sig-name descname">my_dictionary</code><a class="headerlink" href="#Code.generate_rules.my_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary class to do basic dict operations</p>
+<dl class="method">
+<dt id="Code.generate_rules.my_dictionary.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.generate_rules.my_dictionary.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to add key:value pair</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – A key to be hashed in the dictionary</p></li>
+<li><p><strong>value</strong> – The value for the corresponding key</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Code.apply_rules">
+<span id="apply-rules-module"></span><h1>Apply Rules module<a class="headerlink" href="#module-Code.apply_rules" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="Code.apply_rules.check_rule">
+<code class="sig-prename descclassname">Code.apply_rules.</code><code class="sig-name descname">check_rule</code><span class="sig-paren">(</span><em class="sig-param">rule</em>, <em class="sig-param">rule_checker</em>, <em class="sig-param">email_id</em>, <em class="sig-param">gmail_api</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.apply_rules.check_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to check a rule_set for a given email</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> – The rule_set to be checked</p></li>
+<li><p><strong>rule_checker</strong> – The email_rule_check object which maintains a hashmap of single rules for each email</p></li>
+<li><p><strong>email_id</strong> – The mail ID of a particular mail as stored in the database</p></li>
+<li><p><strong>gmail_api</strong> – The gmail_endpoint object to get a particular message from its ID</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.apply_rules.check_single_rule">
+<code class="sig-prename descclassname">Code.apply_rules.</code><code class="sig-name descname">check_single_rule</code><span class="sig-paren">(</span><em class="sig-param">single_rule</em>, <em class="sig-param">rule_checker</em>, <em class="sig-param">email_id</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.apply_rules.check_single_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to check wether a single rule is satisfied by the email or not</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>single_rule</strong> – The rule to be checked</p></li>
+<li><p><strong>rule_checker</strong> – The email_rule_check object which maintains a hashmap of single rules for each email</p></li>
+<li><p><strong>email_id</strong> – The mail ID of a particular mail as stored in the database</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Returns</dt><dd><dl class="simple">
+<dt>result:boolean</dt><dd><p>The truth value of wether the email passed the rule or not ( True for passed and False for fail)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.apply_rules.days">
+<code class="sig-prename descclassname">Code.apply_rules.</code><code class="sig-name descname">days</code><span class="sig-paren">(</span><em class="sig-param">date1</em>, <em class="sig-param">date2</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.apply_rules.days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to find the difference between 2 dates in days</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date1</strong> – The first date</p></li>
+<li><p><strong>date2</strong> – The second date</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Returns</dt><dd><dl class="simple">
+<dt>result:int</dt><dd><p>The number of days between the 2 dates</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.apply_rules.days_to_months">
+<code class="sig-prename descclassname">Code.apply_rules.</code><code class="sig-name descname">days_to_months</code><span class="sig-paren">(</span><em class="sig-param">days</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.apply_rules.days_to_months" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to convert given number of days to months</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>days</strong> – The number of days which has to be converted to months</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Returns</dt><dd><dl class="simple">
+<dt>result:int</dt><dd><p>The converted number of months</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="Code.apply_rules.email_rule_check">
+<em class="property">class </em><code class="sig-prename descclassname">Code.apply_rules.</code><code class="sig-name descname">email_rule_check</code><a class="headerlink" href="#Code.apply_rules.email_rule_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class which connects with the database to extract stored mail data and also maintains a rule hashmap for optimization purposes when checking wether a email satisfies a rule or not</p>
+<dl class="method">
+<dt id="Code.apply_rules.email_rule_check.generate_cache">
+<code class="sig-name descname">generate_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Code.apply_rules.email_rule_check.generate_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to initialise the hashmap cache</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.apply_rules.hash_dict">
+<code class="sig-prename descclassname">Code.apply_rules.</code><code class="sig-name descname">hash_dict</code><span class="sig-paren">(</span><em class="sig-param">val</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.apply_rules.hash_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to hash a given dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>val</strong> – The dictionary to hash</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Returns</dt><dd><dl class="simple">
+<dt>result:json</dt><dd><p>The hashed json string</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="Code.apply_rules.perform_action">
+<code class="sig-prename descclassname">Code.apply_rules.</code><code class="sig-name descname">perform_action</code><span class="sig-paren">(</span><em class="sig-param">email_id</em>, <em class="sig-param">action_list</em>, <em class="sig-param">gmail_api</em><span class="sig-paren">)</span><a class="headerlink" href="#Code.apply_rules.perform_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to check a rule_set for a given email</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email_id</strong> – The mail ID of a particular mail as stored in the database</p></li>
+<li><p><strong>action_list</strong> – The list of actions which has to be performed on the email</p></li>
+<li><p><strong>gmail_api</strong> – The gmail_endpoint object to get a particular message from its ID</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Bharath Kumar Thulasidoss
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

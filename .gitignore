@@ -1,5 +1,5 @@
-token.pickle
-credentials.json
+Storage/token.pickle
+Storage/credentials.json
 happyenv
-Mail_base.db
-Mail_base
+Storage/Mail_base.db
+Storage/Mail_base
