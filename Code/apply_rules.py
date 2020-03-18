@@ -1,7 +1,7 @@
 import json
 import os
 import datetime
-from Code.get_data import database,GMAIL_auth,GMAIL_endpoint
+from get_data import database,GMAIL_auth,GMAIL_endpoint
 
 string_type=["To_mail","From_mail","Subject","Message","CC","Time_Zone"]
 date_type=["local_time","utc_time"]

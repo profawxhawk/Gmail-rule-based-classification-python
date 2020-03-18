@@ -137,45 +137,48 @@ if __name__ == '__main__':
     rules={}
     while ans!='2':
         if ans=='1':
-            with open("../Storage/rules.json", "w+") as file: 
-                if os.stat("../Storage/rules.json").st_size > 0:
-                    json_object = json.load(file) 
-                    rules = json.loads(json_object)
-                temp=my_dictionary()
-                print("Enter rule set name")
-                name=input()
-                temp.add('Name',name)
-                rule_set_predicate=get_input("Enter rule set predicate as either any or all",["ANY","ALL","any","all"])
-                temp.add('Predicate',rule_set_predicate)
-                print("1) Enter a single rule")
-                print("Done ( any other key )")
-                rule_limit=input()
-                rule_arr=[]
-                while(rule_limit=='1'):
-                    rule_arr.append(get_rule())
+            with open("../Storage/rules.json", "r") as file: 
+                with open("../Storage/rules.json", "w") as file_append:
+                    if os.stat("../Storage/rules.json").st_size > 0:
+                        rules = json.loads(file.read())
+                    temp=my_dictionary()
+                    print("Enter rule set name")
+                    name=input()
+                    temp.add('Name',name)
+                    rule_set_predicate=get_input("Enter rule set predicate as either any or all",["ANY","ALL","any","all"])
+                    temp.add('Predicate',rule_set_predicate)
                     print("1) Enter a single rule")
                     print("Done ( any other key )")
                     rule_limit=input()
-                
-                temp.add('rule_list',rule_arr)
+                    rule_arr=[]
+                    while(rule_limit=='1'):
+                        rule_arr.append(get_rule())
+                        print("1) Enter a single rule")
+                        print("Done ( any other key )")
+                        rule_limit=input()
+                    
+                    temp.add('rule_list',rule_arr)
 
-                print("1) Enter a action")
-                print("Done ( any other key )")
-                action_limit=input()
-                action_arr=[]
-                while(action_limit=='1'):
-                    action_arr.append(get_action())
                     print("1) Enter a action")
                     print("Done ( any other key )")
                     action_limit=input()
-                
-                temp.add('action_list',action_arr)
-                if 'rule_set_arr' not in rules:
-                    rules['rule_set_arr']=[temp]
-                else:
-                    rules['rule_set_arr'].append(temp)
-                
-                json.dump(rules,file)
+                    action_arr=[]
+                    while(action_limit=='1'):
+                        action_arr.append(get_action())
+                        print("1) Enter a action")
+                        print("Done ( any other key )")
+                        action_limit=input()
+                    
+                    temp.add('action_list',action_arr)
+                    if 'rule_set_arr' not in rules:
+                        rules['rule_set_arr']=[temp]
+                    else:
+                        rules['rule_set_arr'].append(temp)
+                    
+                    json_file = json.dumps(rules)
+                    file_append.write(json_file)
+                    file_append.close()
+                    file.close()
         print("1) Add a rule set ( would be added to rules.json) ")
         print("2) Exit")
         ans=input()
